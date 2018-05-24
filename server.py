@@ -66,6 +66,42 @@ def full_chain():
     return jsonify(response), 200
 
 
+@app.route('/nodes/register', methods=['POST'])
+def register_nodes():
+    values = request.get_json()
+
+    nodes = values.get('nodes')
+    if nodes is None:
+        return 'error, please supply a valid list of nodes', 400
+    
+    for n in nodes:
+        blockchain.register_node(n)
+
+    response = {
+        'message': 'new node have been added',
+        'total_nodes': list(blockchain.nodes)
+    }
+
+    return jsonify(response), 201
+
+
+@app.route('/nodes/resolve', methods=['GET'])
+def consensus():
+    replaced = blockchain.resolve_conflicts()
+
+    if replaced:
+        response = {
+            'message': 'out chain was replaced',
+            'new_chain': blockchain.chain
+        }
+    else:
+        response = {
+            'message': 'our chain os authoritative',
+            'chain': blockchain.chain
+        }
+
+    return jsonify(response), 200
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000)
+    app.run(host='localhost', port=5000)
 
