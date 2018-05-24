@@ -7,12 +7,11 @@ import requests
 class Blockchain(object):
     def __init__(self):
         self.chain = []
+        self.nodes = set()
         self.current_transaction = []
 
         self.new_block(previous_hash=1, proof=1000)
         
-        self.nodes = set()
-
     def new_block(self, proof, previous_hash=None):
         block = {
             'index': len(self.chain) + 1,
