@@ -26,3 +26,6 @@ Blockchain
 > `/nodes/resolve`
 
 
+---
+reference:
+1. [Learn Blockchains by building one](https://hackernoon.com/learn-blockchain-by-building-one-1774228612f46)
